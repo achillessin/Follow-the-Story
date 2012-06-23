@@ -1,4 +1,6 @@
  
+Attribution: This code uses the xgoogle library developed in python by Peteris Krumins. Kudos to him on this effort as it does a better job in retrieving more results than the std google API.
+
 �Follow the storyline�
 
 Problem statement� The goal of the project was to create an application, which provides the user with news articles in a chronological order for an event from the moment the event was born, which enables the user to follow the story from the start, and provides an opportunity to the late entrants to catch-up with the story. The application presents those articles which define the event and track its temporal progression. This is achieved by measuring the articles social relevance using facebook �likes� and twitter �retweets�.
