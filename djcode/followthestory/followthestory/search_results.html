@@ -1,0 +1,59 @@
+﻿<hmtl>
+<head>
+<style type="text/css">
+ div#newscontainer {
+    width: 50%;
+    float: left;
+	}
+</style>
+<style type="text/css">
+ div#twittercontainer {
+    width: 50%;
+    float: right;
+	}
+</style>
+</head>
+<div id="header"></div>
+
+<div id="container">
+<div id="newscontainer">
+<p>You searched for: <strong>{{ query }}</strong></p>
+
+{% if articledictlist %}
+    <p>Total={{Total}} Pruned={{ articledictlist|length }} article{{ articledictlist|pluralize }}.</p>
+<img src="result.png" width=”200”/>
+
+    <ul>
+        {% for a in articledictlist %}
+        <li style=”font-size=15pt”><b>{{ a.title }}</b></li>
+        <br>{{ a.url }}</br>
+        <br>{{ a.date }}</br>
+        <br>{{ a.desc }}</br>
+         <hr></hr>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No articles found.</p>
+{% endif %}
+</div>
+<div id="twittercontainer">
+<p> Searched for: <strong>{{tquery}}</strong></p>
+
+{% if twitterfeed %}
+	<p> Neutral:{{neutral}} Positive:{{positive}} Negative:{{negative}} </p>
+	<img src="twitterchart.png" width=”200”/>
+	<ul>
+		{% for t in twitterfeed %}
+			<br>{{t}}</br>
+			<hr></hr>
+		{% endfor %}
+	</ul>
+{% else %}
+	<p> No tweets found </p>
+{% endif %}
+</div>
+
+</div>
+
+<div id="footer"></div>
+</hmtl>

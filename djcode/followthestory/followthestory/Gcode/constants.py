@@ -1,0 +1,13 @@
+Username='sisilmet2000'
+Password='27Apr1988 '
+Geo='us'
+FixedScale=0
+RelativeScale=1
+months={'Jan' : 1,'Feb' : 2,'Mar' : 3,'Apr' : 4,'May' : 5,'Jun' : 6,'Jul' : 7,'Aug' : 8,'Sep' : 9,'Oct' : 10,'Nov' : 11,'Dec' : 12}
+pagecount =5 
+graphfile='C:/Users/Sisil/Desktop/Courses/CS7270,netapps/user/djcode/followthestory/followthestory/graph.png'
+neutral=2
+positive=4
+negative=0
+twitterpages=4
+twittergraphfile='C:/Users/Sisil/Desktop/Courses/CS7270,netapps/user/djcode/followthestory/followthestory/twittergraph.png'

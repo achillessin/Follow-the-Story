@@ -1,0 +1,146 @@
+
+ 
+…Follow the storyline…
+
+Problem statement— The goal of the project was to create an application, which provides the user with news articles in a chronological order for an event from the moment the event was born, which enables the user to follow the story from the start, and provides an opportunity to the late entrants to catch-up with the story. The application presents those articles which define the event and track its temporal progression. This is achieved by measuring the articles social relevance using facebook ‘likes’ and twitter ‘retweets’.
+
+I.	Section I: Motivation and Project objectives
+T
+HE objective of the project was to provide the user with a clean and structured way to read news articles and not to miss out on any articles and to be in sync with the continuity of the story developing. Because of current hectic schedules I often join the story late following which I google for the event on google news. Google is an information engine, not a knowledge engine and so it will bombard the user with thousands of articles which the user has to wade through. This motivated us to create an application, which will present us with articles that define the event.
+
+The objectives of the project Ire as below:
+1.	To find the trend of the search query and estimate the time period when the event is at its peak.
+2.	Getting news articles form the estimated time period.
+3.	Arranging the articles in a chronological order.
+4.	Getting the Facebook shares and twitter re-tweets for each article and assigning a social number to the article.
+5.	I use the social number to filter the articles based on the social popularity.
+6.	Displaying the results on a web based application.
+
+II.	Section – 2: Related Work
+Currently there are not many applications, which do, similar to what I have done. Follow the Saga on Engadget.com, displays results in a similar fashion but the news articles are only limited to technology news that they curate. That’s why I decided to build this application for uncategorized news from different sources.
+III.	Section-3: Methodology 
+In this section I describe our methodology to achieve our objectives listed in section 1. Listed below are our objectives and our way to accomplish the objectives.
+
+A.  To find the trend of the search query and estimate the time period when the event occurred:
+
+I used the Google trends API to get the current trend of the query entered. Using the data obtained I plot a graph of the data over time and find the peak of the query searched happened. Using the peak I deduce the date range to grab the articles from. The peak is calculated by calculating the maxima of the graph plotted. The date range is obtained by taking the dates before and after the maxima, from points which vary no more than 5% of the maximum value. Given below is an example of the graph I plotted using the application.
+
+ 
+Fig 1: Trend of search query over time. The date range used here is Jan 4, 2004 to Feb 25, 2012
+
+The date range obtained from here is then forwarded to the Google search API. In case of multiple peaks, I pick the peak closest to the current period.
+
+B. Getting news articles from the estimated time period:
+
+The date range obtained from Section III.B is then used in the Google search API to get the articles from Google News. The search URL used to structure the query is:
+
+http://www.google.%(tld)s/search?hl=%(lang)s&gl=%(loc)s&tbs=cdr:1%%2Ccd_min%%3A%(monthstart)d%%2F%(daystart)d%%2F%(yearstart)d%%2Ccd_max%%3A%(monthend)d%%2F%(dayend)d%%2F%(yearend)d&tbm=nws&q=%(query)s
+
+The important parameters to be tweaked are monthstart: start month obtained from the date range, daystart: start day obtained from the date range, yearstart: start year obtained from the date range. Similarly monthend: end month of the date range, dayend: end day of the date range, yearend: year end value from the date range. The parameter tbm=nws returns news articles from the search results, and finally the query is the search query for which news articles are to be retrieved. Google then returns news articles from the date range specified by the URL.
+
+C. Arranging the articles in a chronological order: 
+
+The articles obtained from the Google API have a date field in them. This date field is used to initially sort the articles on a week-by-week basis.
+
+D. Using social number to filter articles. 
+ 
+I used the Facebook query language to obtain the Facebook shares of articles. The example of the usage is as follows:
+
+"http://graph.facebook.com/?ids=link"
+
+The link is the URL of the article. The sample output of the response retrieved is as follows:
+
+{"http:\/\/www.usatoday.com\/news\/nation\/story\/2012-03-11\/puerto-rico-economy-brain-drain-exodus\/53490820\/1":{"id":"http:\/\/www.usatoday.com\/news\/nation\/story\/2012-03-11\/puerto-rico-economy-brain-drain-exodus\/53490820\/1","shares":4981,"comments":104}}
+
+From this response I extracted the number of shares using regex, and this was one component of the social number. I also used twitter API to account for the twitter re-tweets about the articles. The usage of the API is as follows:
+
+http://urls.api.twitter.com/1/urls/count.json?url=link
+
+The link is the URL of the new article. The response obtained is as follows:
+
+{"count":717,"url":"http://www.usatoday.com/news/nation/story/2012-03-11/puerto-rico-economy-brain-drain-exodus/53490820/1/"} 
+
+The count is retrieved from the response using regex. I then obtain a social number by simply adding the Facebook shares and twitter re-tweets.
+
+Social number = Facebook shares + twitter re-tweets.
+
+I eliminated articles with a social number in comparison with the other articles. I eliminated less popular articles because of the assumption that the quality of an article is directly proportional to the popularity of the article on the social media.
+
+E. Getting tweets for the query searched:
+
+I used the twitter API to get the tweets for the query searched. The usage of the API is as follows:
+
+http://search.twitter.com/search.json?q=query
+
+The response is a json object from which I extract the tweets. The number of tweets can be controlled by a ‘rpp’ parameter which is encoded in the URL. The language of the tweets can also be controlled using the ‘lang’ parameter in the URL. I then used Django to create a web application out of our python scripts.
+IV.	Section-4: Results
+I tested our application for various search queries; out of which listed here are results of some distinct results.
+
+A. Adele Grammy vs Adele:  The completeness of the query determines the quality of the results. If a user wants to find out the results around the event of adele winning a grammy and searches for ‘Adele’ he might get results from the beginning of her popoularity till today as follows:
+ 
+ However when I searched for the query Adele Grammy with our application I got a cleaner graph with an event window surrounding her grammy win. The following graph shows the popularity of the query over the time:
+
+ 
+
+Fig 2. Popularity over time. The time period is from Jan 4, 2004 to Feb 25,2012.
+
+I observe the peak during the February mid of 2012 because of the face that Grammy awards Ire held during that period and Adele won 6 Grammy awards. From the peak obtained I decide the range of dates to retrieve the articles. The date range for this query was calculated as Feb 5, 2012 to Feb 25, 2012 by the method described in Section 3, A. The date range and the query is then forwarded to the Google search API to retrieve the news articles.
+The URLs retrieved from the articles is then given to Facebook graphs API and the twitter count API to get the social number for each article.
+
+ 
+Fig 3: Social number of Articles v/s date range of articles [Feb 5, 2012 to Feb 25,2012].
+
+Taking the social number into consideration the articles are then filtered (pruned).As seen in both the pruning images, the envelope of the articles is retained.
+ 
+Fig 4: Articles filtered according to their social popularity within the date range. [Feb 5, 2012 to Feb 25, 2012].
+
+
+The articles are then displayed in a structured fashion on a web page, as shown in the page attached at the end of the paper.
+
+B. Tim Tebow: I chose this search query because Tim Tebow representing Denver Broncos (an American Football team in National Football League) in 2011-2012 season became popular because his transfer to New York Jets 2012-2013 season.
+The trend of this query is as shown below.
+ 
+Fig 6: Popularity over time.
+
+The social number of the articles is calculated, by the method described in Section 3.D.
+ 
+Fig. 7: Social number of articles over the date range [Mar 30, 2012 to Apr 22, 2012]
+
+The articles are then filtered with the method described in Section 3.D. The results after pruning are as shown below:
+ 
+Fig 8. Articles v/s Social number after pruning in date range   [Mar 30, 2012 to Apr 22, 2012]
+
+C. SOPA: Stop online piracy act created quiet a stir in January, 2012. The figure below shows the trend for the search query SOPA.
+ 
+Fig 10: Popularity over time.
+
+The social number for all the articles Ire calculated, and the plot similar to other examples is as shown below:
+
+ 
+Fig 11: Social number of articles over a date range [Jan 1, 2012 to Jan 29, 2012]
+
+The following is the plot after pruning:
+
+ 
+Fig 12: Filtering of articles using social number.
+V.	Technologies used
+The technologies that were used and their purpose is highlighted as follows:
+Google Trends API – To find the event reigion
+Facebook Query Language – To find the facebook likes given an article
+Twitter API – To find the retweets for an article
+Django with SQLlite – Web framework on python to render webpages.
+VI.	Future Work and Conclusion.
+I would like to improve the GUI for the application to make it more fluid and intuitive to ues. Also modeling the social index in a better way to indicate how sharing articles on facebook and twitter constitutes social relevance would be another area for future work. I think I have created an innovative way of reading news articles, which eliminates the pain of searching for individual articles. 
+
+VII.	Lessons learnt
+·	This was a great experience and I was able to experiment with some really new technologies such as Django and Google trends API.
+·	I see a lot of potential in this project as there are several areas where we can improve, each of which can be an individual research topic.
+·	Initially it was a very large project but I decided to narrow down and focus on things that matter.
+VIII.	Concepts and Techniques From class
+The current version of the project uses concepts from different topics covered in class – such as handling databases for content, network issues when dealing with E-commerce services.
+
+As a part of future work, I will require to deploy this system on the web and will require servers to handle requests as well as store information. The topics covered in class regarding handling server redundancy, replication and throughput will be useful. Also another concept will be that of ACID vs BASE systems and which one will be a good fit for this product.
+IX.	References.
+
+1.	Python Documentation - www.python.org/doc/
+2.	Facebook Graphs API documentation 
