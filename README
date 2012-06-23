@@ -1,8 +1,7 @@
-
  
-…Follow the storyline…
+ï¿½Follow the storylineï¿½
 
-Problem statement— The goal of the project was to create an application, which provides the user with news articles in a chronological order for an event from the moment the event was born, which enables the user to follow the story from the start, and provides an opportunity to the late entrants to catch-up with the story. The application presents those articles which define the event and track its temporal progression. This is achieved by measuring the articles social relevance using facebook ‘likes’ and twitter ‘retweets’.
+Problem statementï¿½ The goal of the project was to create an application, which provides the user with news articles in a chronological order for an event from the moment the event was born, which enables the user to follow the story from the start, and provides an opportunity to the late entrants to catch-up with the story. The application presents those articles which define the event and track its temporal progression. This is achieved by measuring the articles social relevance using facebook ï¿½likesï¿½ and twitter ï¿½retweetsï¿½.
 
 I.	Section I: Motivation and Project objectives
 T
@@ -16,8 +15,8 @@ The objectives of the project Ire as below:
 5.	I use the social number to filter the articles based on the social popularity.
 6.	Displaying the results on a web based application.
 
-II.	Section – 2: Related Work
-Currently there are not many applications, which do, similar to what I have done. Follow the Saga on Engadget.com, displays results in a similar fashion but the news articles are only limited to technology news that they curate. That’s why I decided to build this application for uncategorized news from different sources.
+II.	Section ï¿½ 2: Related Work
+Currently there are not many applications, which do, similar to what I have done. Follow the Saga on Engadget.com, displays results in a similar fashion but the news articles are only limited to technology news that they curate. Thatï¿½s why I decided to build this application for uncategorized news from different sources.
 III.	Section-3: Methodology 
 In this section I describe our methodology to achieve our objectives listed in section 1. Listed below are our objectives and our way to accomplish the objectives.
 
@@ -72,11 +71,11 @@ I used the twitter API to get the tweets for the query searched. The usage of th
 
 http://search.twitter.com/search.json?q=query
 
-The response is a json object from which I extract the tweets. The number of tweets can be controlled by a ‘rpp’ parameter which is encoded in the URL. The language of the tweets can also be controlled using the ‘lang’ parameter in the URL. I then used Django to create a web application out of our python scripts.
+The response is a json object from which I extract the tweets. The number of tweets can be controlled by a ï¿½rppï¿½ parameter which is encoded in the URL. The language of the tweets can also be controlled using the ï¿½langï¿½ parameter in the URL. I then used Django to create a web application out of our python scripts.
 IV.	Section-4: Results
 I tested our application for various search queries; out of which listed here are results of some distinct results.
 
-A. Adele Grammy vs Adele:  The completeness of the query determines the quality of the results. If a user wants to find out the results around the event of adele winning a grammy and searches for ‘Adele’ he might get results from the beginning of her popoularity till today as follows:
+A. Adele Grammy vs Adele:  The completeness of the query determines the quality of the results. If a user wants to find out the results around the event of adele winning a grammy and searches for ï¿½Adeleï¿½ he might get results from the beginning of her popoularity till today as follows:
  
  However when I searched for the query Adele Grammy with our application I got a cleaner graph with an event window surrounding her grammy win. The following graph shows the popularity of the query over the time:
 
@@ -117,30 +116,3 @@ Fig 10: Popularity over time.
 The social number for all the articles Ire calculated, and the plot similar to other examples is as shown below:
 
  
-Fig 11: Social number of articles over a date range [Jan 1, 2012 to Jan 29, 2012]
-
-The following is the plot after pruning:
-
- 
-Fig 12: Filtering of articles using social number.
-V.	Technologies used
-The technologies that were used and their purpose is highlighted as follows:
-Google Trends API – To find the event reigion
-Facebook Query Language – To find the facebook likes given an article
-Twitter API – To find the retweets for an article
-Django with SQLlite – Web framework on python to render webpages.
-VI.	Future Work and Conclusion.
-I would like to improve the GUI for the application to make it more fluid and intuitive to ues. Also modeling the social index in a better way to indicate how sharing articles on facebook and twitter constitutes social relevance would be another area for future work. I think I have created an innovative way of reading news articles, which eliminates the pain of searching for individual articles. 
-
-VII.	Lessons learnt
-·	This was a great experience and I was able to experiment with some really new technologies such as Django and Google trends API.
-·	I see a lot of potential in this project as there are several areas where we can improve, each of which can be an individual research topic.
-·	Initially it was a very large project but I decided to narrow down and focus on things that matter.
-VIII.	Concepts and Techniques From class
-The current version of the project uses concepts from different topics covered in class – such as handling databases for content, network issues when dealing with E-commerce services.
-
-As a part of future work, I will require to deploy this system on the web and will require servers to handle requests as well as store information. The topics covered in class regarding handling server redundancy, replication and throughput will be useful. Also another concept will be that of ACID vs BASE systems and which one will be a good fit for this product.
-IX.	References.
-
-1.	Python Documentation - www.python.org/doc/
-2.	Facebook Graphs API documentation 
